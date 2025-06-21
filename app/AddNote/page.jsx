@@ -9,7 +9,7 @@ export default function AddNote() {
     title: "",
     content: "",
   });
-  const { loggIn } = useAuth();
+  const { loggIn , host } = useAuth();
   const router = useRouter();
 
   // Handle change for both title and content
