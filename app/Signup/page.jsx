@@ -1,8 +1,10 @@
-"use client"
+"use client";
 import axios from "axios";
 import React, { useState } from "react";
+import { useAuth } from "../context"; // ✅ use host from context
 
 export default function Signup() {
+  const { host } = useAuth(); // ✅ get host from context
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -33,12 +35,12 @@ export default function Signup() {
       setErrors(validationErrors);
     } else {
       try {
-        const res = await axios.post("http://localhost:3002/register", {
+        const res = await axios.post(`${host}/register`, {
           username: formData.name,
           email: formData.email,
           password: formData.password,
         });
-  
+
         console.log("Server response:", res.data);
         alert("User registered successfully!");
         setErrors({});

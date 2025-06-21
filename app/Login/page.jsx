@@ -1,13 +1,11 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useAuth } from "../context";
 
 export default function Login() {
-
-  const {loggIn ,setLoggIn} = useAuth();
-
+  const { loggIn, setLoggIn, host } = useAuth(); // ✅ get `host` from context
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -35,16 +33,16 @@ export default function Login() {
       setErrors(validationErrors);
     } else {
       try {
-        const res = await axios.post("http://localhost:3002/login", {
+        const res = await axios.post(`${host}/login`, {
           email: formData.email,
           password: formData.password,
         });
 
         console.log("Login successful:", res.data);
-        setLoggIn({state:true , user: "" , email:formData.email});
+        setLoggIn({ state: true, user: res.data.user?.Name || "", email: formData.email });
 
-        // Redirect user to the dashboard or home page after login
-        router.push("/"); // Replace '/dashboard' with your desired path
+        // ✅ Redirect user after login
+        router.push("/");
       } catch (error) {
         console.log("Login error:", error);
         alert("Invalid email or password");
@@ -99,7 +97,7 @@ export default function Login() {
 
         <div className="text-center mt-4 text-sm text-gray-500">
           Don’t have an account?{" "}
-          <a href="Signup" className="text-blue-600 hover:underline">
+          <a href="/Signup" className="text-blue-600 hover:underline">
             Sign up
           </a>
         </div>

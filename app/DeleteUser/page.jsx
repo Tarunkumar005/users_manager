@@ -7,7 +7,7 @@ import { useAuth } from "../context";
 export default function DeleteAccountPage() {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const router = useRouter();
-  const { setLoggIn } = useAuth();
+  const { setLoggIn, host } = useAuth(); // ✅ include `host` from context
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -17,11 +17,11 @@ export default function DeleteAccountPage() {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:3002/verifyAndDelete", credentials);
+      const res = await axios.post(`${host}/verifyAndDelete`, credentials); // ✅ use deployed backend
 
       if (res.status === 200) {
         alert("Account deleted successfully.");
-        setLoggIn({ state: false, email: "" });
+        setLoggIn({ state: false, email: "", user: "" });
         router.push("/Signup");
       }
     } catch (err) {

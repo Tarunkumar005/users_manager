@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useAuth } from "../context";
 import { useRouter } from "next/navigation";
 
-export default function Notes() {
+export default function Home() {
   const { loggIn, fetchNotes, notes ,deleteNote } = useAuth();
   const router = useRouter();
   
@@ -13,7 +13,7 @@ export default function Notes() {
     }else{
         fetchNotes();
     }
-  }, [loggIn.state ,deleteNote]);
+  }, [loggIn.state]);
 
   return (
     <div className="p-6">

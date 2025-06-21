@@ -27,7 +27,7 @@ export default function AddNote() {
 
     // Call your API to save the note using Axios
     try {
-      const response = await axios.post("http://localhost:3002/addNote", {
+      const response = await axios.post(`${host}/addNote`, {
         title: note.title,
         content: note.content,
         email: loggIn.email, // Replace with actual user email from auth context
