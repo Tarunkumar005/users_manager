@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Users Manager",
+  title: "User vault",
   description: "User account manager in sql database",
 };
 
