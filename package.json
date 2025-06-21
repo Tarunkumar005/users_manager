@@ -9,8 +9,7 @@
     "lint": "next lint",
     "start:frontend": "npm run dev",
     "start:backend": "cd _server && node --watch ./index.js",
-    "backend":"node --watch ./index.js",
-    "start:app": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
+    "backend":"node --watch ./index.js"
   },
   "dependencies": {
     "axios": "^1.8.4",
