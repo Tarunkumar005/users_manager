@@ -5,7 +5,10 @@ import { useRouter } from 'next/navigation';
 
 const AuthContext = createContext();
 
-const host = "http://localhost:3002"; // ✅ local dev backend
+// const host = "http://localhost:3002"; // ✅ local dev backend
+
+const host = "https://backend-production-a1fb.up.railway.app";
+
 
 export const AuthProvider = ({ children }) => {
   const router = useRouter();
