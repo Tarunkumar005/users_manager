@@ -3,10 +3,9 @@ import React, { createContext, useContext, useState } from 'react';
 import axios from "axios";
 import { useRouter } from 'next/navigation';
 
-// Create a context
 const AuthContext = createContext();
 
-const host = "https://backend-production-a1fb.up.railway.app"; // your Railway backend
+const host = "http://localhost:3002"; // ✅ local dev backend
 
 export const AuthProvider = ({ children }) => {
   const router = useRouter();
@@ -16,9 +15,10 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState("");
 
   const [loggIn, setLoggIn] = useState({ state: false, user: "", email: "" });
+  const [justLoggedIn, setJustLoggedIn] = useState(false); // ✅ new flag
   const [notes, setNotes] = useState([]);
 
-  // ✅ Route: GET /users
+  // ✅ Get users
   const fetchUsers = async () => {
     try {
       const response = await axios.get(`${host}/users`);
@@ -39,30 +39,29 @@ export const AuthProvider = ({ children }) => {
   // ✅ Logout
   const LogOut = () => {
     setLoggIn({ state: false, user: "", email: "" });
+    setJustLoggedIn(false); // reset on logout
     router.push("/");
   };
 
-  // ✅ Route: GET /getNotes?email=...
+  // ✅ Get Notes
   const fetchNotes = async () => {
     try {
       const response = await axios.get(`${host}/getNotes`, {
         params: { email: loggIn.email },
       });
-      console.log("Fetched notes:", response.data);
       setNotes(response.data);
     } catch (err) {
       console.error("Failed to fetch notes:", err);
     }
   };
 
-  // ✅ Route: DELETE /deleteNote/:id
+  // ✅ Delete Note
   const deleteNote = async (id) => {
     const confirmDelete = confirm("Are you sure you want to delete this note?");
     if (!confirmDelete) return;
-
     try {
       await axios.delete(`${host}/deleteNote/${id}`);
-      setNotes(notes.filter((note) => note.ID !== id)); // Use correct case for MySQL field
+      setNotes(notes.filter((note) => note.ID !== id));
     } catch (err) {
       console.error("Failed to delete note:", err);
     }
@@ -77,6 +76,8 @@ export const AuthProvider = ({ children }) => {
         error,
         loggIn,
         setLoggIn,
+        justLoggedIn,
+        setJustLoggedIn,
         LogOut,
         fetchNotes,
         notes,
@@ -89,5 +90,5 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Custom hook to use the context
+// ✅ Custom hook
 export const useAuth = () => useContext(AuthContext);

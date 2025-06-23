@@ -5,7 +5,7 @@ import axios from "axios";
 import { useAuth } from "../context";
 
 export default function Login() {
-  const { loggIn, setLoggIn, host } = useAuth(); // ✅ get `host` from context
+  const { loggIn, setLoggIn, setJustLoggedIn, host } = useAuth(); // ✅ Added setJustLoggedIn
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -39,10 +39,14 @@ export default function Login() {
         });
 
         console.log("Login successful:", res.data);
-        setLoggIn({ state: true, user: res.data.user?.Name || "", email: formData.email });
+        setLoggIn({
+          state: true,
+          user: res.data.user?.Name || "",
+          email: formData.email,
+        });
 
-        // ✅ Redirect user after login
-        router.push("/");
+        setJustLoggedIn(true); // ✅ Trigger welcome on next page
+        router.push("/Home");
       } catch (error) {
         console.log("Login error:", error);
         alert("Invalid email or password");
@@ -62,7 +66,9 @@ export default function Login() {
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-2xl shadow-md w-full max-w-md"
       >
-        <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Log In</h2>
+        <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">
+          Log In
+        </h2>
 
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-600">Email</label>
