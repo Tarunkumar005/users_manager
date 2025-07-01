@@ -7,9 +7,9 @@ const AuthContext = createContext();
 
 // const host = "http://localhost:3002"; // ✅ local dev backend
 
-const host = "https://backend-production-b164.up.railway.app/";
+const host = "https://backend-production-b164.up.railway.app";
 
-
+s
 export const AuthProvider = ({ children }) => {
   const router = useRouter();
 
