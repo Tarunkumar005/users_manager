@@ -9,7 +9,6 @@ const AuthContext = createContext();
 
 const host = "https://backend-production-b164.up.railway.app";
 
-s
 export const AuthProvider = ({ children }) => {
   const router = useRouter();
 
